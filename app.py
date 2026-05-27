@@ -14,6 +14,9 @@ from database.insert_deliveries import insert_deliveries
 from database.insert_wickets import insert_wickets
 
 from analytics.batting_analysis import generate_batting_scorecard
+from analytics.bowling_analysis import generate_bowling_scorecard
+
+
 
 
 
@@ -59,6 +62,31 @@ def upload_file():
 
 
     scorecard = generate_batting_scorecard(match_id)
+    bowling_scorecard = generate_bowling_scorecard(match_id)
+
+
+    return render_template(
+        "scorecard.html",
+        batting_scorecard = scorecard,
+        bowling_scorecard = bowling_scorecard
+    )
+
+
+    output = " <h2> Bowling Scorecard</h2>"
+
+    for bowler in bowling_scorecard:
+        output += f"""
+        Bowler: {bowler['bowler']} |
+        Overs: {bowler['overs']} |
+        Runs: {bowler['runs_conceded']} |
+        Wickets: {bowler['wickets']} |
+        Economy: {bowler['economy']}
+        <br>
+        """
+
+    return output
+
+
 
     output = ""
     for player in scorecard:
