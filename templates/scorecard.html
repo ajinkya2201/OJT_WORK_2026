@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -24,10 +24,105 @@
         Match Scorecard
     </h1>
 
+    <!-- MATCH SUMMARY -->
+
+    <!-- <div class="row mb-4">
+
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>Winner</h5>
+                    <p>{{ summary["winner"] }}</p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>Highest Scorer</h5>
+                    <p>
+                        {{ summary["highest_scorer"] }}
+                        ({{ summary["highest_runs"] }})
+                    </p>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>Highest Wicket Taker</h5>
+                    <p>
+                        {{ summary["highest_wicket_taker"] }}
+                        ({{ summary["highest_wickets"] }})
+                    </p>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+    
+                    <h5>{{ summary["team1"] }}</h5>
+    
+                    <h3>{{ summary["team1_full_score"] }}</h3>
+    
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+    
+                    <h5>{{ summary["team2"] }}</h5>
+    
+                    <h3>{{ summary["team2_full_score"] }}</h3>
+    
+                </div>
+            </div>
+        </div>
+    
+    </div>
+
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+    
+                    <h5>Total Fours</h5>
+    
+                    <h3>{{ summary["total_fours"] }}</h3>
+    
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body">
+    
+                    <h5>Total Sixes</h5>
+    
+                    <h3>{{ summary["total_sixes"] }}</h3>
+    
+                </div>
+            </div>
+        </div>
+    
+    </div>
+ -->
 
     <!-- Batting Scorecard -->
 
-    <div class="card mb-5 shadow">
+    <!-- <div class="card mb-5 shadow">
 
         <div class="card-header bg-primary text-white">
 
@@ -88,11 +183,11 @@
         </div>
 
     </div>
-
+ -->
 
     <!-- Bowling Scorecard -->
 
-    <div class="card shadow">
+    <!-- <div class="card shadow">
 
         <div class="card-header bg-success text-white">
 
@@ -154,4 +249,79 @@
 
 </body>
 
+</html> --> 
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <title>Match Scorecard</title>
+    
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='css/style.css') }}">
+    
+    </head>
+<body>
+
+    <h1>Match Scorecard</h1>
+
+    <div class="container">
+
+        <div class="summary-container">
+
+            <div class="summary-card">
+                <h3>Winner</h3>
+                <p>{{ summary["winner"] }}</p>
+            </div>
+        
+            <div class="summary-card">
+                <h3>Highest Scorer</h3>
+                <p>
+                    {{ summary["highest_scorer"] }}
+                    ({{ summary["highest_runs"] }})
+                </p>
+            </div>
+        
+            <div class="summary-card">
+                <h3>Highest Wicket Taker</h3>
+                <p>
+                    {{ summary["highest_wicket_taker"] }}
+                    ({{ summary["highest_wickets"] }})
+                </p>
+            </div>
+        
+        </div>
+        
+        <div class="team-score-container">
+        
+            <div class="team-card">
+                <h3>{{ summary["team1"] }}</h3>
+                <h2>{{ summary["team1_full_score"] }}</h2>
+            </div>
+        
+            <div class="team-card">
+                <h3>{{ summary["team2"] }}</h3>
+                <h2>{{ summary["team2_full_score"] }}</h2>
+            </div>
+        
+        </div>
+        
+        <div class="stats-container">
+        
+            <div class="stat-card">
+                <h3>Total Fours</h3>
+                <h2>{{ summary["total_fours"] }}</h2>
+            </div>
+        
+            <div class="stat-card">
+                <h3>Total Sixes</h3>
+                <h2>{{ summary["total_sixes"] }}</h2>
+            </div>
+        
+        </div>
+    
+    </div>
+    
+</body>
 </html>

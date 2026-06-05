@@ -15,6 +15,7 @@ from database.insert_wickets import insert_wickets
 
 from analytics.batting_analysis import generate_batting_scorecard
 from analytics.bowling_analysis import generate_bowling_scorecard
+from analytics.match_summary import generate_match_summary
 
 
 
@@ -64,9 +65,15 @@ def upload_file():
     scorecard = generate_batting_scorecard(match_id)
     bowling_scorecard = generate_bowling_scorecard(match_id)
 
+    summary = generate_match_summary(match_id)
+    # print(summary)
+
+    
+
 
     return render_template(
         "scorecard.html",
+        summary = summary,
         batting_scorecard = scorecard,
         bowling_scorecard = bowling_scorecard
     )
