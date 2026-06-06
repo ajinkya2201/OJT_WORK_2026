@@ -1,6 +1,6 @@
 from database.db_connection import get_db_connection
 
-def generate_batting_scorecard(match_id):
+def generate_batting_scorecard(match_id,batting_team):
     connection = get_db_connection()
 
     cursor = connection.cursor()
@@ -31,12 +31,12 @@ def generate_batting_scorecard(match_id):
             2
             ) as strike_rate
 
-    from deliveries  where match_id = ?
+    from deliveries  where match_id = ? and batting_team = ?
     group by batter order by total_runs desc
     
     """
 
-    cursor.execute(query,(match_id,))
+    cursor.execute(query,(match_id,batting_team))
     scorecard = cursor.fetchall()
     connection.close()
     return scorecard

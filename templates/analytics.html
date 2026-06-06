@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Analytics Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Analytics Dashboard</h1>
+
+    <h2>Top Run Scorers</h2>
+
+    <table>
+
+        <tr>
+
+            <th>Rank</th>
+
+            <th>Player</th>
+
+            <th>Runs</th>
+
+        </tr>
+
+        {% for player in batting_leaderboard %}
+
+        <tr>
+
+            <td>{{ loop.index }}</td>
+
+            <td>{{ player["batter"] }}</td>
+
+            <td>{{ player["total_runs"] }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    <br><br>
+
+    <h2>Top Wicket Takers</h2>
+
+    <table>
+
+        <tr>
+
+            <th>Rank</th>
+
+            <th>Player</th>
+
+            <th>Wickets</th>
+
+        </tr>
+
+        {% for player in bowling_leaderboard %}
+
+        <tr>
+
+            <td>{{ loop.index }}</td>
+
+            <td>{{ player["bowler"] }}</td>
+
+            <td>{{ player["total_wickets"] }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</div>
+
+</body>
+
+</html>

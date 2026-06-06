@@ -16,6 +16,12 @@ from database.insert_wickets import insert_wickets
 from analytics.batting_analysis import generate_batting_scorecard
 from analytics.bowling_analysis import generate_bowling_scorecard
 from analytics.match_summary import generate_match_summary
+from analytics.leaderboard import get_batting_leaderboard,get_bowling_leaderboard
+from analytics.player_statistics import get_player_batting_stats,get_matches_played
+
+
+
+
 
 
 
@@ -61,21 +67,80 @@ def upload_file():
     deliveries = parse_deliveries(file_path)
     wickets = parse_wickets(file_path)
 
+@app.route("/analytics")
+def analytics():
+    batting_leaderboard = get_batting_leaderboard()
+    bowling_leaderboard = get_bowling_leaderboard()
 
-    scorecard = generate_batting_scorecard(match_id)
-    bowling_scorecard = generate_bowling_scorecard(match_id)
+
+    print(get_matches_played("K Bhurtel"))
+
+    return render_template("analytics.html",batting_leaderboard = batting_leaderboard,
+                           bowling_leaderboard = bowling_leaderboard)
+
+
+
+@app.route("/player/<player_name>")
+def player_profile(player_name):
+
+    batting_stats = get_player_batting_stats(player_name)
+
+    matches_played = get_matches_played(player_name)
+
+    return render_template(
+        "player_profile.html",
+        batting_stats=batting_stats,
+        matches_played=matches_played
+    )
+
+
+
+
 
     summary = generate_match_summary(match_id)
-    # print(summary)
 
+    
+    team1_batting = generate_batting_scorecard(match_id,summary["team1"])
+    team2_batting = generate_batting_scorecard(match_id,summary["team2"])
+
+ 
+
+    team1_bowling = generate_bowling_scorecard(match_id,summary["team1"])
+    team2_bowling = generate_bowling_scorecard(match_id,summary["team2"])
+
+
+    # leaderboard = get_batting_leaderboard()
+    # for player in leaderboard:
+    #     print(player["batter"],player["total_runs"])
+
+    # leaderboard = get_bowling_leaderboard()
+    # for player in leaderboard:
+    #     print(player["bowler"],player["total_wickets"])
+
+
+    stats = get_player_batting_stats("K Bhurtel")
+
+    print(stats)
+    stats = get_player_batting_stats("K Bhurtel")
+
+    print(stats["batter"])
+    print(stats["total_runs"])
+    print(stats["strike_rate"])
+
+  
+
+    
+    
     
 
 
     return render_template(
         "scorecard.html",
         summary = summary,
-        batting_scorecard = scorecard,
-        bowling_scorecard = bowling_scorecard
+        team1_batting = team1_batting,
+        team2_batting = team2_batting,
+        team1_bowling = team1_bowling,
+        team2_bowling = team2_bowling
     )
 
 

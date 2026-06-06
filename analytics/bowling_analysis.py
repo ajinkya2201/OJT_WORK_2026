@@ -1,6 +1,6 @@
 from database.db_connection import get_db_connection
 
-def generate_bowling_scorecard(match_id):
+def generate_bowling_scorecard(match_id,batting_team):
     connection = get_db_connection()
 
     cursor = connection.cursor()
@@ -37,7 +37,7 @@ def generate_bowling_scorecard(match_id):
     
         AND d.ball_number = w.ball_number
     
-    WHERE d.match_id = ?
+    WHERE d.match_id = ? and d.batting_team = ?
     
     GROUP BY d.bowler
     
@@ -45,7 +45,7 @@ def generate_bowling_scorecard(match_id):
     """
     
 
-    cursor.execute(query,(match_id,))
+    cursor.execute(query,(match_id,batting_team))
     scorecard = cursor.fetchall()
 
     connection.close()

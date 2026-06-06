@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <title>Player Profile</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Player Profile</h1>
+
+    <table>
+
+        <tr>
+            <th>Player</th>
+            <td>{{ batting_stats["batter"] }}</td>
+        </tr>
+
+        <tr>
+            <th>Matches Played</th>
+            <td>{{ matches_played }}</td>
+        </tr>
+
+        <tr>
+            <th>Total Runs</th>
+            <td>{{ batting_stats["total_runs"] }}</td>
+        </tr>
+
+        <tr>
+            <th>Balls Faced</th>
+            <td>{{ batting_stats["balls_faced"] }}</td>
+        </tr>
+
+        <tr>
+            <th>Fours</th>
+            <td>{{ batting_stats["fours"] }}</td>
+        </tr>
+
+        <tr>
+            <th>Sixes</th>
+            <td>{{ batting_stats["sixes"] }}</td>
+        </tr>
+
+        <tr>
+            <th>Strike Rate</th>
+            <td>{{ batting_stats["strike_rate"] }}</td>
+        </tr>
+
+    </table>
+
+</div>
+
+</body>
+
+</html>
