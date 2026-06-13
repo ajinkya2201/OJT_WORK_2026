@@ -13,10 +13,39 @@
 
 <body>
 
+   
+
 <div class="container">
 
     <h1>Analytics Dashboard</h1>
 
+    <h2>Top Run Scorers</h2>
+
+        <img
+        src="{{ url_for('static', filename='charts/top_runs.png') }}"
+        width="900"
+        >
+
+        <h2>Top Wicket Takers</h2>
+
+        <img
+        src="{{ url_for('static', filename='charts/top_wickets.png') }}"
+        width="900"
+        >
+
+        <h2>Top Strike Rates</h2>
+
+        <img
+        src="{{ url_for('static', filename='charts/strike_rate.png') }}"
+        width="900"
+        >
+
+        <h2>Runs vs Strike Rate Analysis</h2>
+
+        <img
+        src="{{ url_for('static', filename='charts/runs_vs_sr.png') }}"
+        width="900"
+        >
     <h2>Top Run Scorers</h2>
 
     <table>

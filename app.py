@@ -18,11 +18,10 @@ from analytics.bowling_analysis import generate_bowling_scorecard
 from analytics.match_summary import generate_match_summary
 from analytics.leaderboard import get_batting_leaderboard,get_bowling_leaderboard
 from analytics.player_statistics import get_player_batting_stats,get_matches_played
+from analytics.ml_dataset import (generate_player_dataset,export_player_dataset_csv)
 
-
-
-
-
+from ml.visulization import (generate_top_runs_chart , generate_top_wickets_chart,
+                             generate_strike_rate_chart,generate_runs_vs_sr_chart)
 
 
 
@@ -67,13 +66,57 @@ def upload_file():
     deliveries = parse_deliveries(file_path)
     wickets = parse_wickets(file_path)
 
+    if is_new_match:
+
+        insert_players(players)
+
+        insert_deliveries(match_id, deliveries)
+
+        insert_wickets(match_id, wickets)
+
+    
+
+    summary = generate_match_summary(match_id)
+
+    print("Match ID:", match_id)
+    print("Deliveries:", len(deliveries))
+    print("Wickets:", len(wickets))
+
+    
+    team1_batting = generate_batting_scorecard(match_id,summary["team1"])
+    team2_batting = generate_batting_scorecard(match_id,summary["team2"])
+
+ 
+
+    team1_bowling = generate_bowling_scorecard(match_id,summary["team1"])
+    team2_bowling = generate_bowling_scorecard(match_id,summary["team2"])
+
+
+
+    return render_template(
+        "scorecard.html",
+        summary = summary,
+        team1_batting = team1_batting,
+        team2_batting = team2_batting,
+        team1_bowling = team1_bowling,
+        team2_bowling = team2_bowling
+    )
+
+
+
+
 @app.route("/analytics")
 def analytics():
     batting_leaderboard = get_batting_leaderboard()
     bowling_leaderboard = get_bowling_leaderboard()
 
-
-    print(get_matches_played("K Bhurtel"))
+    dataset = generate_player_dataset()
+    export_player_dataset_csv()
+    generate_top_runs_chart()
+    generate_top_wickets_chart()
+    generate_strike_rate_chart()
+    generate_runs_vs_sr_chart()
+    
 
     return render_template("analytics.html",batting_leaderboard = batting_leaderboard,
                            bowling_leaderboard = bowling_leaderboard)
@@ -92,163 +135,6 @@ def player_profile(player_name):
         batting_stats=batting_stats,
         matches_played=matches_played
     )
-
-
-
-
-
-    summary = generate_match_summary(match_id)
-
-    
-    team1_batting = generate_batting_scorecard(match_id,summary["team1"])
-    team2_batting = generate_batting_scorecard(match_id,summary["team2"])
-
- 
-
-    team1_bowling = generate_bowling_scorecard(match_id,summary["team1"])
-    team2_bowling = generate_bowling_scorecard(match_id,summary["team2"])
-
-
-    # leaderboard = get_batting_leaderboard()
-    # for player in leaderboard:
-    #     print(player["batter"],player["total_runs"])
-
-    # leaderboard = get_bowling_leaderboard()
-    # for player in leaderboard:
-    #     print(player["bowler"],player["total_wickets"])
-
-
-    stats = get_player_batting_stats("K Bhurtel")
-
-    print(stats)
-    stats = get_player_batting_stats("K Bhurtel")
-
-    print(stats["batter"])
-    print(stats["total_runs"])
-    print(stats["strike_rate"])
-
-  
-
-    
-    
-    
-
-
-    return render_template(
-        "scorecard.html",
-        summary = summary,
-        team1_batting = team1_batting,
-        team2_batting = team2_batting,
-        team1_bowling = team1_bowling,
-        team2_bowling = team2_bowling
-    )
-
-
-    output = " <h2> Bowling Scorecard</h2>"
-
-    for bowler in bowling_scorecard:
-        output += f"""
-        Bowler: {bowler['bowler']} |
-        Overs: {bowler['overs']} |
-        Runs: {bowler['runs_conceded']} |
-        Wickets: {bowler['wickets']} |
-        Economy: {bowler['economy']}
-        <br>
-        """
-
-    return output
-
-
-
-    output = ""
-    for player in scorecard:
-        output += f"""
-        Batter: {player['batter']} |
-        Runs: {player['total_runs']} |
-        Balls: {player['balls_faced']} |
-        4s: {player['fours']} |
-        6s: {player['sixes']} | 
-        SR: {player['strike_rate']}       
-
-        <br>
-        """
-    return output
-        
-
-
-
-    if is_new_match:
-        insert_players(players)
-        insert_deliveries(match_id,deliveries)
-        insert_wickets(match_id,wickets)
-        return "New Match Data Inserted Successfully"
-    else:
-
-        return "Match Already Exists with Match Id: {match_id}"
-    
-
-    
-    
-
-
-
-    return "Match,Players and Deliveries Inserted Successfuly"
-
-    return f"Match  and Players inserted Successfully "
-
-    wicket_output =""
-    for wicket in wickets:
-        wicket_output += f"""
-        Innings: {wicket['innings']} |
-    
-        Over: {wicket['over']}.{wicket['ball']} |    
-        Player Out: {wicket['player_out']} |   
-        Dismissal: {wicket['dismissal_type']} |       
-        Bowler: {wicket['bowler']} 
-        <br>
-        """
-    return wicket_output
-
-
-
-    delivery_output = ""
-
-    for delivery in deliveries[:20]:
-
-        delivery_output += f"""
-        Innings: {delivery['innings']} |
-        Over: {delivery['over']}.{delivery['ball']} |
-        Batter: {delivery['batter']} | 
-        Bowler: {delivery['bowler']} | 
-        Runs: {delivery['total_runs']}
-        
-        <br>
-        """
-    return delivery_output
-
-
-    player_output =""
-    for player in players:
-        player_output +=f"""
-        Player: {player['player_name']}
-        | Team: {player['team']}<br>
-        """
-    return player_output
-    
-
-    return f"""
-    Match Type : {match_data['match_type']}<br>
-    Venue : {match_data['venue']}<br>
-    City : {match_data['city']}<br>
-    Teams : {match_data['teams']}<br>
-    Winner: {match_data['winner']} <br>
-    Toss Winner: {match_data['toss_winner']}
-
-    """
-
-
-    
-    
 
 
 
