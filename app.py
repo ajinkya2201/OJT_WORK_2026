@@ -19,9 +19,14 @@ from analytics.match_summary import generate_match_summary
 from analytics.leaderboard import get_batting_leaderboard,get_bowling_leaderboard
 from analytics.player_statistics import get_player_batting_stats,get_matches_played
 from analytics.ml_dataset import (generate_player_dataset,export_player_dataset_csv)
+from analytics.player_match_dataset import (generate_player_match_dataset,export_player_match_dataset)
+from analytics.future_prediction_dataset import (create_future_prediction_dataset,export_future_prediction_dataset,
+                                                 create_future_prediction_dataset_v2,export_future_prediction_dataset_v2)
 
 from ml.visulization import (generate_top_runs_chart , generate_top_wickets_chart,
                              generate_strike_rate_chart,generate_runs_vs_sr_chart)
+
+
 
 
 
@@ -116,7 +121,22 @@ def analytics():
     generate_top_wickets_chart()
     generate_strike_rate_chart()
     generate_runs_vs_sr_chart()
+    dataset = generate_player_match_dataset()
+    export_player_match_dataset()
+
     
+
+    data = create_future_prediction_dataset()
+    export_future_prediction_dataset()
+    data = create_future_prediction_dataset_v2()
+    export_future_prediction_dataset_v2()
+
+    
+
+    
+
+    
+        
 
     return render_template("analytics.html",batting_leaderboard = batting_leaderboard,
                            bowling_leaderboard = bowling_leaderboard)
